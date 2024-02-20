@@ -217,6 +217,8 @@ colnames(data_Whole)
 col_names <- colnames(data_Whole)[-1]
 col_names
 sorted_col_names <- col_names[order(as.numeric(sub(".*_(\\d+)$", "\\1", col_names)))] ### this command line will order the variables based on the year ###
-sorted_col_names <- c("HID", sorted_col_names)
-data_Whole <- data_Whole[,sorted_col_names]
-write.csv(data_Whole, "task_1_forecasted_consumed_hospitals.csv", row.names = F, quote = F)
+sorted_col_names <- c("HID", sorted_col_names) 
+data_Whole <- data_Whole[,sorted_col_names]  ### sort the data by years on column
+rownames(data_Whole) <- data_Whole$HID 
+data_Whole <- data_Whole[sheetname,]  ### sort the data by hospital orders ###
+write.csv(data_Whole, "task_1_forecasted_consumed_hospitals.csv", row.names = F, quote = F) ## save the file in CSV file ####
