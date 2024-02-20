@@ -97,16 +97,6 @@ colnames(hospital_wide[[4]])[colnames(hospital_wide[[4]]) == "FA_H3_0070_2019"] 
 colnames(hospital_wide[[32]])[colnames(hospital_wide[[32]]) == "CS-H32_6010_2019"] <- "CS_H32_6010_2019"
 colnames(hospital_wide[[32]])[colnames(hospital_wide[[32]]) == "CS-H32_6010_2022"] <- "CS_H32_6010_2022"
 
-
-
-
-#summary(hospital_wide[[1]]$`%OS_H1_0050_2017`)
-
-### check for the last drug ###
-#for(i in 1:35){
- # print(hospital_wide[[i]][57,])
-#}
-
 #### i observed few blank columns in the data and want to remove those blank columns ####
 blank_columns <- list()
 for(i in sheetname){
@@ -230,7 +220,3 @@ sorted_col_names <- col_names[order(as.numeric(sub(".*_(\\d+)$", "\\1", col_name
 sorted_col_names <- c("HID", sorted_col_names)
 data_Whole <- data_Whole[,sorted_col_names]
 write.csv(data_Whole, "task_1_forecasted_consumed_hospitals.csv", row.names = F, quote = F)
-
-
-
-
