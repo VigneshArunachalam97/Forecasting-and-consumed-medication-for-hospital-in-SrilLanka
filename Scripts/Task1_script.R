@@ -1,6 +1,3 @@
-### Task 1 in data analysis #####
-### The summary of the medicines that have been forecasted and consumed by all the hospital need to be presented in a table (Table) #####
-
 # import the required library # 
 library(data.table)
 library(readxl)
@@ -96,6 +93,16 @@ colnames(hospital_wide[[32]])[colnames(hospital_wide[[32]]) == "CS-H32_6010_2016
 colnames(hospital_wide[[4]])[colnames(hospital_wide[[4]]) == "FA_H3_0070_2019"] <- "FA_H4_0080_2019"
 colnames(hospital_wide[[32]])[colnames(hospital_wide[[32]]) == "CS-H32_6010_2019"] <- "CS_H32_6010_2019"
 colnames(hospital_wide[[32]])[colnames(hospital_wide[[32]]) == "CS-H32_6010_2022"] <- "CS_H32_6010_2022"
+
+
+
+
+#summary(hospital_wide[[1]]$`%OS_H1_0050_2017`)
+
+### check for the last drug ###
+#for(i in 1:35){
+ # print(hospital_wide[[i]][57,])
+#}
 
 #### i observed few blank columns in the data and want to remove those blank columns ####
 blank_columns <- list()
@@ -217,8 +224,12 @@ colnames(data_Whole)
 col_names <- colnames(data_Whole)[-1]
 col_names
 sorted_col_names <- col_names[order(as.numeric(sub(".*_(\\d+)$", "\\1", col_names)))] ### this command line will order the variables based on the year ###
-sorted_col_names <- c("HID", sorted_col_names) 
-data_Whole <- data_Whole[,sorted_col_names]  ### sort the data by years on column
-rownames(data_Whole) <- data_Whole$HID 
-data_Whole <- data_Whole[sheetname,]  ### sort the data by hospital orders ###
-write.csv(data_Whole, "task_1_forecasted_consumed_hospitals.csv", row.names = F, quote = F) ## save the file in CSV file ####
+sorted_col_names <- c("HID", sorted_col_names)
+data_Whole <- data_Whole[,sorted_col_names]
+rownames(data_Whole) <- data_Whole$HID
+data_Whole <- data_Whole[sheetname,]
+
+write.csv(data_Whole, "task_1_forecasted_consumed_hospitals.csv", row.names = F, quote = F)
+
+
+
