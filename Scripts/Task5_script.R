@@ -30,7 +30,7 @@ hospital_id <- hos_id$HID
 hospital_id
 
 ##### get all data ####
-hospital_wide <- readRDS("hospital_wide_edited_subset_final_Mar_02_24.RDS")
+hospital_wide <- readRDS("data/hospital_wide_edited_subset_final_Mar_18_24.RDS")
 length(hospital_wide)
 lapply(hospital_wide, dim)
 
@@ -120,7 +120,11 @@ for(year in period2) {
 fac_data$HID <- as.character(fac_data$HID)
 fac_data_cardio_p2 <- fac_data
 #saveRDS(fac_data, "FAC_data_year_hospital.RDS") #### save as R object ####
-
+#### merge face_data period1 and period2 ####
+fac_data_full <- merge(fac_data_cardio_p1, fac_data_cardio_p2, by = "HID")
+rownames(fac_data_full) <- fac_data_full$HID
+fac_data_full <- fac_data_full[hospital_id,]
+write.csv(fac_data_full, "Output/FAC_data_cardio.csv", row.names = F, quote = F)
 #### calculate DFBC for the hospitals ####
 dfbc_data <- as.data.frame(matrix(NA, nrow = length(hospital_id), ncol = length(period2)+1))
 colnames(dfbc_data) <- c("HID", paste("DFBC_", period2, sep =""))
@@ -216,6 +220,7 @@ for(year in period1) {
 }
 fac_data$HID <- as.character(fac_data$HID)
 fac_data_endo_p1 <- fac_data
+fac_data_endo_p1
 #saveRDS(fac_data, "FAC_data_year_hospital.RDS") #### save as R object ####
 
 #### calculate DFBC for the hospitals ####
@@ -260,6 +265,11 @@ for(year in period2) {
 fac_data$HID <- as.character(fac_data$HID)
 fac_data_endo_p2 <- fac_data
 #saveRDS(fac_data, "FAC_data_year_hospital.RDS") #### save as R object ####
+
+fac_data_full <- merge(fac_data_endo_p1, fac_data_endo_p2, by = "HID")
+rownames(fac_data_full) <- fac_data_full$HID
+fac_data_full <- fac_data_full[hospital_id,]
+write.csv(fac_data_full, "Output/FAC_data_endo.csv", row.names = F, quote = F)
 
 #### calculate DFBC for the hospitals ####
 dfbc_data <- as.data.frame(matrix(NA, nrow = length(hospital_id), ncol = length(period2)+1))

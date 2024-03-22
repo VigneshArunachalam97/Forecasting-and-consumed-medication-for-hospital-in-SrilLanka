@@ -3,7 +3,6 @@ library(data.table)
 library(readxl)
 library(dplyr)
 
-
 #### import required files ####
 ### set the working directory 
 wd <- "C:/Users/n11142006/OneDrive - Queensland University of Technology/PhD/Nimmi_data/"
@@ -73,16 +72,15 @@ hospital_wide[[31]]$`%OS_H31_2020_2015` <- NA
 
 saveRDS(hospital_wide, paste0("hospital_wide_edited_", format(Sys.Date(), "%b_%d_%y"),".RDS")) ### the RDS file for future use
 hospital_wide <- readRDS("hospital_wide_edited_Feb_22_24.RDS")
-
+names(hospital_wide)
 ######### load the required drugs and hos id data to subset ######
-drugs_id <- read.xlsx("data/ids_to_plot.xlsx", sheet = "Drugs")
+drugs_id <- read_xlsx("data/ids_to_plot.xlsx", sheet = "Drugs")
 drugs_id
-hos_id <- read.xlsx("data/ids_to_plot.xlsx", sheet = "Hospital")
-hos_id$HID <- gsub("H19_0170", "H19_0270", hos_id$HID)
+hos_id <- read_xlsx("data/ids_to_plot.xlsx", sheet = "Hospital")
+hos_id$HID <- gsub("H19_0270", "H9_0170", hos_id$HID)
 hos_id$new_id <- paste("H", 1:nrow(hos_id), sep = "")
 
 ##### subset #####
-
 hospital_wide_subset <- hospital_wide[hos_id$HID] ### this will subset required hospital data ###
 length(hospital_wide_subset)
 hospital_wide_subset_final <- list()
@@ -93,4 +91,17 @@ for(i in 1:length(hospital_wide_subset)) {
   hospital_wide_subset_final[[i]] <- as.data.table(data)
 }
 names(hospital_wide_subset_final) <- hos_id$HID
-saveRDS(hospital_wide_subset_final, paste0("hospital_wide_edited_subset_final_", format(Sys.Date(), "%b_%d_%y"),".RDS"))
+names(hospital_wide_subset_final)
+
+colnames(hospital_wide_subset_final[[1]])[colnames(hospital_wide_subset_final[[1]]) == "DE_H2_0060_2020...53"] <- "DE_H2_0060_2020"
+colnames(hospital_wide_subset_final[[1]])[colnames(hospital_wide_subset_final[[1]]) == "DE_H2_0060_2020...73"] <- "DE_H2_0060_2022"
+colnames(hospital_wide_subset_final[[4]])[colnames(hospital_wide_subset_final[[4]]) == "FI_H5_0090_2021...62"] <- "FI_H5_0090_2021"
+colnames(hospital_wide_subset_final[[4]])[colnames(hospital_wide_subset_final[[4]]) == "FI_H5_0090_2021...72"] <- "FI_H5_0090_2022"
+colnames(hospital_wide_subset_final[[11]])[colnames(hospital_wide_subset_final[[11]]) == "%ADE_H41_0220_2017"] <- "%ADE_H14_0220_2017"
+colnames(hospital_wide_subset_final[[11]])[colnames(hospital_wide_subset_final[[11]]) == "%FAC_H41_0220_2017"] <- "%FAC_H14_0220_2017"
+hospital_wide_subset_final[[13]]$FI_H33_A010_2016 <- NA
+hospital_wide_subset_final[[13]]$'%FAC_H33_A010_2016' <- NA
+
+
+saveRDS(hospital_wide_subset_final, paste0("data/hospital_wide_edited_subset_final_", format(Sys.Date(), "%b_%d_%y"),".RDS"))  
+### final saved object name is "hospital_wide_edited_subset_final_Mar_18_24.RDS"

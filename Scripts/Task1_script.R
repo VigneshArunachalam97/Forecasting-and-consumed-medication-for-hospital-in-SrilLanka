@@ -125,9 +125,8 @@ hospital_id <- sheetname ### hospital name #####
 years <- seq(2015, 2022, 1) ### years data we have
 FA_colnames <- paste("FA", "_", hospital_id, "_", years, sep = "")
 CS_colnames <- paste("CS", "_", hospital_id, "_", years, sep = "")
+
 ## FAC - should present in both FA and CS ####
-
-
 #### calculate fac for the hospitals ####
 fac_data <- as.data.frame(matrix(NA, nrow = length(hospital_id), ncol = length(years)+1))
 colnames(fac_data) <- c("HID", paste("FAC_", years, sep =""))
